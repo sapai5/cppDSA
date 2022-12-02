@@ -18,6 +18,6 @@ public:
     int getDuration();
     char* getPublisher();
     const char* getType();
-    void print();
+    void print(); // for testing, not required
     void promptInput();
 };
