@@ -4,10 +4,10 @@
 #include <vector>
 
 Media::Media() {
-
+ //empty constructor - used for testing
 }
 
-Media::~Media() {
+Media::~Media() { //virtual destructor
 	cout << "Deleted " << title << " (" << year << ")\n";
 }
 
@@ -37,7 +37,7 @@ void Media::print() {
 	cout << "Year: " << year << '\n';
 }
 
-void Media::promptInput() {
+void Media::promptInput() { //prompts the input for title, year, etc.
 	cout << "Enter title: ";
 	cin.getline(title, 100);
 	cout << "Enter year: ";
