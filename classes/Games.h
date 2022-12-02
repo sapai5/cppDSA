@@ -1,3 +1,5 @@
+//variables for games
+
 #pragma once
 #include "Media.h"
 #include <iostream>
