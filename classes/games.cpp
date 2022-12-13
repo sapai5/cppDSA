@@ -3,7 +3,7 @@
 #include <cstring>
 #include <vector>
 
-Game::Game() {
+Game::Game() { //calls the input
   promptInput();
 }
 
@@ -40,7 +40,7 @@ void Game::print() {
     cout << "Rating: " << rating << '\n';
 }
 
-void Game::promptInput() {
+void Game::promptInput() { //input
     Media::promptInput();
     cout << "Enter publisher: ";
     cin.getline(publisher, 80);

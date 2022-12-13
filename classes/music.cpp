@@ -3,7 +3,7 @@
 #include <cstring>
 #include <vector>
 
-Music::Music() {
+Music::Music() { //call input
   promptInput();
 }
 
@@ -50,7 +50,7 @@ void Music::print() {
     cout << "Publisher: " << publisher << '\n';
 }
 
-void Music::promptInput() {
+void Music::promptInput() { //input
     Media::promptInput();
     cout << "Enter artist: ";
     cin.getline(artist, 80);

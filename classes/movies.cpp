@@ -3,7 +3,7 @@
 #include <cstring>
 #include <vector>
 
-Movie::Movie() {
+Movie::Movie() { //call the input
   promptInput();
 }
 
@@ -19,7 +19,7 @@ void Movie::setDirector(char* director) {
     strcpy(this->director, director);
 }
 
-void Movie::setDuration(int duration) {
+void Movie::setDuration(int duration) { //enter as an int (minutes)
     this->duration = duration;
 }
 
@@ -43,14 +43,14 @@ const char* Movie::getType() {
     return "Movie";
 }
 
-void Movie::print() {
+void Movie::print() { //print
     Media::print();
     cout << "Director: " << director << '\n';
     cout << "Duration: " << duration << '\n';
     cout << "Rating: " << rating << '\n';
 }
 
-void Movie::promptInput() {
+void Movie::promptInput() { //input
     Media::promptInput();
     cout << "Enter director: ";
     cin.getline(director, 80);

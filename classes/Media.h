@@ -5,7 +5,7 @@
 using namespace std;
 
 class Media{
-    public:
+    public: //public variables
 		Media();
 		~Media();
 		void setTitle(char* title);
@@ -15,7 +15,7 @@ class Media{
 		virtual const char* getType();
 		virtual void print();
 		virtual void promptInput();
-	private:
+	private: //fixed variables - cannot be changed
 		char title[100];
 		int year;
 };

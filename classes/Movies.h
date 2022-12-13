@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
-
+//stores variables
 class Movie : public Media {
 private:
     char director[80];
