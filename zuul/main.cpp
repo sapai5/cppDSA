@@ -110,7 +110,7 @@ int main()
     strcpy(dir5_1, "SOUTH");
     map5->insert(pair<char*, room*>(dir5_1, rm2));
     char* dir5_2 = new char[50]; //char array for direction
-    strcpy(dir5_2, "EAST");
+    strcpy(dir5_2, "NORTH");
     map5->insert(pair<char*, room*>(dir5_2, rm7));
     rm5->setMap(map5);
     rooms->push_back(rm5);
@@ -142,10 +142,10 @@ int main()
     map7->insert(pair<char*, room*>(dir7, rm5));
     char* dir7_1 = new char[50]; //char array for direction
     strcpy(dir7_1, "WEST");
-    map7->insert(pair<char*, room*>(dir7_1, rm9));
+    map7->insert(pair<char*, room*>(dir7_1, rm8));
     char* dir7_2 = new char[50]; //char array for direction
     strcpy(dir7_2, "EAST");
-    map7->insert(pair<char*, room*>(dir7_2, rm8));
+    map7->insert(pair<char*, room*>(dir7_2, rm9));
     char* dir7_3 = new char[50]; //char array for direction
     strcpy(dir7_3, "NORTH");
     map7->insert(pair<char*, room*>(dir7_3, rm14));
@@ -225,7 +225,7 @@ int main()
     strcpy(name12, "Library");
     rm12->setTitle(name12);
     char* desc12 = new char[150]; //char array of descriptions sets the description
-    strcpy(desc12, "Wow, the amount of books here is astounding@");
+    strcpy(desc12, "Wow, the amount of books here is astounding!");
     rm12->setDescription(desc12);
     map<char*, room*>* map12 = new map<char*, room*>; //map vector
     char* dir12 = new char[50]; //char array for direction
@@ -279,6 +279,8 @@ int main()
     rm15->setMap(map15);
     rooms->push_back(rm15);
 
+    rooms->push_back(i);
+    
     //create items
     vector <item*> items;
     item* i1 = new item();
@@ -342,19 +344,6 @@ int main()
             cin.getline(command, 80);//Gets the command
             if (strcmp(command, "NORTH") == 0 || strcmp(command, "SOUTH") == 0 || strcmp(command, "WEST") == 0 || strcmp(command, "EAST") == 0) {
                 bool cont = true;
-
-                if (strcmp(command, "EAST") == 0 && current == rm15) {
-                    cout << "You need the key to enter this room." << endl;
-                    cont = false;//Prevents room transition
-                    legal = true;//legal move
-                    if (i4->getLoc() == i) {
-                        cout << "You got away with the robot. You can sell it and get rich. YOu win!" << endl;
-                    }
-                    else {
-                        cout << "You escaped but got nothing out of it. At least you are alive." << endl;
-                    }
-                    stillPlaying = false;//stops game
-                }
                 if (cont == true) {
                     for (map<char*, room*>::iterator it = currentMap->begin(); it != currentMap->end(); ++it) {//go through map
                         if (strcmp(command, it->first) == 0) {
@@ -368,21 +357,36 @@ int main()
                         cout << "There is a " << (*it)->getName() << endl;
                     }
                 }
+                if (current == rm11) {
+                    cout << "You have entered the exit room! Does doom await?." << endl;
+                    cont = false;//Prevents room transition
+                    legal = true;//legal move
+                    if (i4->getLoc() == i) {
+                        cout << "You got away with the robot. You can sell it and get rich. You win!" << endl;
+                    }
+                    else {
+                        cout << "You forgot to bring the key! You can't open the box in time and the room collapses. You die." << endl;
+                    }
+                    stillPlaying = false;//stops game
+                }
                 legal = true;//legal move
-                if (strcmp(command, "Get") == 0) { //Will pickup item
-                    for (vector<item*>::iterator it = items.begin(); it != items.end(); ++it) {
-                        if ((*it)->getLoc() == current) {
-                            cout << "Do you wish to pickup " << (*it)->getName() << "(answer Y or N)" << endl;
-                            char yesno;
-                            cin >> yesno;
-                            cin.ignore();
-                            if (yesno == 'Y') {
-                                (*it)->setLocation(i);
-                            }
+            }
+            else if (strcmp(command, "Get") == 0) { //Will pickup item
+	      cout<<"Which item do you want to pick up?"<<endl;
+	      cin.getline(command, 80);
+                for (vector<item*>::iterator it = items.begin(); it != items.end(); ++it) {
+                    if ((*it)->getLoc() == current) {
+                        cout << "Do you wish to pickup " << (*it)->getName() << "(answer Y or N)" << endl;
+                        char yesno;
+                        cin >> yesno;
+                        cin.ignore();
+                        if (yesno == 'Y') {
+                            (*it)->setLocation(i);
                         }
                     }
-                    legal = true; //legal move
                 }
+                legal = true; //legal move
+            
             }
             else if (strcmp(command, "Inventory") == 0) {//checks inventory
                 cout << "You have: " << endl;
@@ -437,9 +441,7 @@ int main()
             if (legal == false) { //if not legal move
                 cout << "The inputted command is invalid" << endl;
             }
-            
 
-
+	}
         }
     }
-}
