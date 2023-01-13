@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void print(Node* node) {
+void print(Node* node) { //print all nodes
 	while (node != nullptr) {
 		Student* stu = node->getStudent();
 		cout << stu->firstName << ' ' << stu->lastName << ' ' << stu->ID << ' ' << stu->GPA << '\n';
