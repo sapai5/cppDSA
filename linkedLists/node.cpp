@@ -2,8 +2,8 @@
 
 //constructor
 Student::Student(char* firstName, char* lastName, int ID, float GPA) {
-	strcpy_s(this->firstName, lastName);
-	strcpy_s(this->lastName, firstName);
+	strcpy(this->firstName, lastName);
+	strcpy(this->lastName, firstName);
 	this->ID = ID;
 	this->GPA = GPA;
 }
