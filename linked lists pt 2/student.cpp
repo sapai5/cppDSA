@@ -5,8 +5,8 @@
 using namespace std;
 
 student::student(char* firstname, char* lastname, int id, float gpa) {
-	strcpy_s(this->firstname, firstname);
-	strcpy_s(this->lastname, lastname);
+	strcpy(this->firstname, firstname);
+	strcpy(this->lastname, lastname);
 	this->id = id;
 	this->gpa = gpa;
 }
