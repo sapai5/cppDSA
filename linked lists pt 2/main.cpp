@@ -5,9 +5,15 @@
 #include "node.h"
 #include "student.h"
 
+/* created by: sahil pai
+* 1/29/23
+* student list using linked lists
+*/
+
+
 using namespace std;
 
-bool newStudent(node*& list, node* before, node* same, node* ins) {
+bool newStudent(node*& list, node* before, node* same, node* ins) { //add the students to the list
     if (list == nullptr) {
         list = ins;
         return true;
@@ -36,7 +42,7 @@ bool newStudent(node*& list, node* before, node* same, node* ins) {
     return newStudent(list, same, same->getNext(), ins);
 }
 
-bool addStudent(node*& list) {
+bool addStudent(node*& list) { //takes user input
     char input[60];
     cout << "Enter the student first name." << endl;
     cin >> input;
@@ -53,7 +59,7 @@ bool addStudent(node*& list) {
     return newStudent(list, nullptr, list, newNode);
 }
 
-void print(node* list) {
+void print(node* list) { //print the list
     if (list == nullptr) {
         return;
     }
@@ -85,7 +91,7 @@ bool deleteStudent(node*& list) {
     return newDelete(list, nullptr, list, ID);
 }
 
-float avg(node* same, float sum, int x) {
+float avg(node* same, float sum, int x) { //calculate avg
     if (same == nullptr) {
         return sum / x;
     }
