@@ -2,6 +2,11 @@
 #include <set>
 #include <fstream>
 
+/* By: sahil pai
+* 2/16/23
+* hash table- extension of linked lists
+*/
+
 using namespace std;
 
 bool newHash(Hash& table) {
