@@ -17,7 +17,7 @@ struct Student
 		memcpy(this, stu, sizeof(Student));
 	}
 
-	Student(char* fName, char* lname, unsigned int ID, float gpa) {
+	Student(char* fName, char* lname, unsigned int ID, float gpa) { //student
 		strcpy(this->fName, fName);
 		strcpy(this->lName, lname);
 		this->ID = ID;

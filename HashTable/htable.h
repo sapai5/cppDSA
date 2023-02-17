@@ -43,7 +43,7 @@ struct Hash { //https://www.digitalocean.com/community/tutorials/hash-table-in-c
 		return id % s;
 	}
 
-	void print() {
+	void print() { //print
 		Student* array = new Student[s];
 		int temp = 0;
 		for (int i = 0; i < s; i++) {

@@ -26,7 +26,7 @@ bool newHash(Hash& table) {
 	return table.addToHash(new Student(input1, input2, ID, gpa));
 }
 
-bool delStudent(Hash& table) {
+bool delStudent(Hash& table) { //delete
 	cout << "Enter student ID to delete student: " << endl;
 	int id;
 	cin >> id;
@@ -54,7 +54,7 @@ void fileFunction(Hash& table) {
 	strL.close();
 }
 
-int main() {
+int main() { 
 	Hash table;
 	char input[40];
 	while (true) {
