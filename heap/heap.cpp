@@ -13,7 +13,7 @@ void deleteRoot(int*, int&);
 void print(int*, int, int, int);
 void insert(int*, int&, int);
 
-int main() {
+int main() { //enter values
 	char input[100];
 	bool checkInput = true;
 	while (checkInput == true) {
@@ -21,7 +21,7 @@ int main() {
 		cin >> input;
 		int heap[100];
 		int len = 0;
-		if (strcmp(input, "NUM") == 0) {
+		if (strcmp(input, "NUM") == 0) { //enter manually
 			checkInput = false;
 			bool stillPlaying = true;
 			cin.ignore();
@@ -38,7 +38,7 @@ int main() {
 				}
 			}
 		}
-		else if (strcmp(input, "FILE") == 0) {
+		else if (strcmp(input, "FILE") == 0) { //file
 			cout << "Input file name: " << endl;
 			char name[100];
 			cin.ignore();
@@ -115,7 +115,7 @@ void deleteRoot(int* heap, int& len) {
 		int left = curr * 2 + 1;
 		if (left >= len) return; // Dont traverse tree
 		int right = left + 1;
-		//swap with smallest child
+		//swap with biggest dick
 		if ((right >= len || heap[left] >= heap[right]) && heap[curr] < heap[left]) {
 			std::swap(heap[curr], heap[left]);
 			curr = left;
@@ -134,6 +134,7 @@ void deleteRoot(int* heap, int& len) {
 void print(int* heap, int len, int count, int i) {
 	int left = 2 * i;
 	int right = 2 * i + 1;
+
 	if (right <= len) {
 		print(heap, len, count + 1, right);
 	}
