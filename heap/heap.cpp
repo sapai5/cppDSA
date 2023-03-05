@@ -5,6 +5,13 @@
 #include <fstream>
 #include <stdlib.h> 
 
+/*
+* created by sahil pai
+* 3/5/23
+* this is a heap program
+* more comments lol
+*/
+
 using namespace std;
 
 void maxHeap(int*, int);
@@ -80,13 +87,13 @@ int main() { //enter values
 	}
 }
 
-void maxHeap(int* heap, int len) {
+void maxHeap(int* heap, int len) { //max heap
 	for (int i = (len + 1) / 2; i >= 0; i--) {
 		create(heap, i + 1, len);
 	}
 }
 
-void create(int* heap, int i, int len) {
+void create(int* heap, int i, int len) { //create thingy
 	int left = 2 * i;
 	int right = 2 * i + 1;
 	int large = i;
@@ -115,7 +122,7 @@ void deleteRoot(int* heap, int& len) {
 		int left = curr * 2 + 1;
 		if (left >= len) return; // Dont traverse tree
 		int right = left + 1;
-		//swap with biggest dick
+		//swap with largest child
 		if ((right >= len || heap[left] >= heap[right]) && heap[curr] < heap[left]) {
 			std::swap(heap[curr], heap[left]);
 			curr = left;
@@ -131,7 +138,7 @@ void deleteRoot(int* heap, int& len) {
 	return;
 }
 
-void print(int* heap, int len, int count, int i) {
+void print(int* heap, int len, int count, int i) { //print
 	int left = 2 * i;
 	int right = 2 * i + 1;
 
@@ -149,7 +156,7 @@ void print(int* heap, int len, int count, int i) {
 	}
 }
 
-void insert(int* heap, int& len, int num) {
+void insert(int* heap, int& len, int num) { //insert heap
 	if (len == 100) return;
 	int idx = len++;
 	heap[idx] = num;
