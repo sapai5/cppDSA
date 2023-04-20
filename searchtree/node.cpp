@@ -1,36 +1,31 @@
-#include "node.h"
-#include <iostream>
-node :: node(int newdata) { //constructor
-  left = NULL;
-  right = NULL;
-  data = newdata;
+#include "Node.h"
+
+Node::Node() {
+	left = NULL;
+	right = NULL;
+	num = 0;
 }
 
-node :: ~node() {//destructor
-  left = NULL;
-  right = NULL;
+Node* Node::getLeft() {
+	return left;
 }
 
-void node :: setLeft(node* newLeft) {//sets left
-  left = newLeft;
+Node* Node::getRight() {
+	return right;
 }
 
-void node :: setRight(node* newRight) {//sets right
-  right = newRight;
+void Node::setLeft(Node* l) {
+	left = l;
 }
 
-node* node :: getLeft() {//gets left
-  return left;
+void Node::setRight(Node* r) {
+	right = r;
 }
 
-node* node :: getRight() {//gets right
-  return right;
+int Node::getNum() {
+	return num;
 }
 
-void node :: setData(int newdata) {//sets data
-  data = newdata;
-}
-
-int node :: getData() {//gets data
-  return data;
+void Node::setNum(int n) {
+	num = n;
 }
