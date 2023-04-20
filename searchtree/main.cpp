@@ -1,9 +1,3 @@
-
-//Created by Sahil Pai
-//Date: 4/9/23
-//binary tree
-//remove and print from stackoverflow
-
 #include <iostream>
 #include <cstring>
 #include <fstream> 
