@@ -66,7 +66,7 @@ void print(node* parent, int count) {
         count--;
     }
     if (parent->getCol() == 0) {
-        cout << "\033[31m" << parent->getData() << "\033[0m" << endl;
+        cout << "\033[31m" << parent->getData() << "\033[0m" << endl; //colorize
     }
     else {
         cout << parent->getData() << endl;
@@ -131,7 +131,7 @@ void leftro(node** root, node* rotateN) {
     rotateN->setParent(y);
 }
 
-void rightro(node** root, node* rotateN) {
+void rightro(node** root, node* rotateN) { //right rotate
     node* y = rotateN->getLeft(); 
     rotateN->setLeft(y->getRight());
     if (y->getRight() != NULL) {
@@ -153,7 +153,7 @@ void rightro(node** root, node* rotateN) {
     rotateN->setParent(y);
 }
 
-void redo(node** root, node* z) {
+void redo(node** root, node* z) { //fix the rbt
     while (z->getParent() != NULL && z->getParent()->getCol() == 0 && z != (*root)) {
         if (z->getParent() == z->getParent()->getParent()->getLeft()) {
             node* y = z->getParent()->getParent()->getRight(); 
