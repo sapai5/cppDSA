@@ -4,7 +4,7 @@ class node {
 public:
 	node();//constructor
 	~node();//destructor
-	//all function prototype
+	//all of the function prototype
 	void setLeft(node*);
 	void setRight(node*);
 	void setParent(node*);
@@ -16,10 +16,10 @@ public:
 	void setCol(bool);
 	bool getCol();
 private:
-	node* right;
-	node* left;
+	node* right; //right node
+	node* left; // left node
 	node* parent;
-	int data;
+	int data; //data
 	bool color;//red = 0, black = 1
 };
 
