@@ -6,24 +6,40 @@
 using namespace std;
 
 //Created by Sahil Pai - 4/25/23
-//This project is a red black tree that allows for insertion of numbers
+//Deletion on 5/19/23
+//This project is a red black tree that allows for insertion of numbers. Got some help from Uno too.
+//Sources: https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
+//https://github.com/Bibeknam/algorithmtutorprograms/blob/master/data-structures/red-black-trees/RedBlackTree.cpp
+//https://math.oxford.emory.edu/site/cs171/redBlackTreeSearchingAndInserting/
 
+
+//function prototypes
 void print(node*, int);
 void add(node**, node*, int);
 void read(node**);
 void leftro(node**, node*);
 void rightro(node**, node*);
 void redo(node**, node*);
+node* search(node*, int);
+void del(node**, int);
+node* pred(node*);
+node* fSib(node*);
+void delcase1(node**, node*);
+void delcase2(node**, node*);
+void delcase3(node**, node*);
+void delcase4(node**, node*);
+void delcase5(node**, node*);
+void delcase6(node**, node*);
 
 int main() {
-    node* root = new node();
+    node* root = new node(); //create the root for the tree
     bool s = true;
     while (s == true) {
-        cout << "Please choose to either add, read, print or quit" << endl;
+        cout << "Choose from these options: add, print, read, search, delete, or quit" << endl;
         char input[80];
         cin >> input;
         if (strcmp(input, "add") == 0) {
-            cout << "What number do you want to add" << endl;
+            cout << "Enter the number you want to add: " << endl;
             int in;
             cin >> in;
             add(&root, root, in);
@@ -34,8 +50,21 @@ int main() {
         else if (strcmp(input, "print") == 0) {
             print(root, 0);
         }
-        else if (strcmp(input, "read") == 0) {
+        else if (strcmp(input, "read") == 0) { //file must be separated by commas
             read(&root);
+        }
+        else if (strcmp(input, "search") == 0) {
+            int in;
+            cout << "Enter the number you want to search for: " << endl;
+            cin.ignore();
+            cin >> in;
+            search(root, in);//searches the tree for the number
+        }
+        else if (strcmp(input, "delete") == 0) {
+            cout << "Enter the number you want to delete: " << endl;
+            int in;
+            cin >> in; 
+            del(&root, in);
         }
     }
 }
@@ -49,9 +78,9 @@ void read(node** root) { //read file
     newFile.open(filename);
         while (newFile.eof() != true) {
             char* s = new char[4]; 
-            newFile.getline(s, 5, ',');
-            int in = atoi(s); 
-            add(&(*root), (*root), in); 
+            newFile.getline(s, 5, ','); //used to split the comma
+            int in = atoi(s); //need to convert to int
+            add(&(*root), (*root), in); //call the add function
         }
     newFile.close();
 }
@@ -61,13 +90,14 @@ void print(node* parent, int count) {
         print(parent->getRight(), count + 1); 
     }
     int temp = count;
-    while (count > 0) {
+    while (count > 0) { //to format the tree properly
         cout << "   "; 
         count--;
     }
     if (parent->getCol() == 0) {
-        //cout << "\033[31m" << parent->getData() << "\033[0m" << endl;
-        cout << parent->getData() << endl;
+        //colorize text: https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
+        cout << "\033[31m" << parent->getData() << "\033[0m" << endl;
+        //cout << parent->getData() << endl;
     }
     else {
         cout << parent->getData() << endl;
@@ -80,22 +110,22 @@ void print(node* parent, int count) {
 void add(node** root, node* parent, int toin) {
     if (parent->getData() == 0) {
         parent->setCol(1);
-        parent->setData(toin);
+        parent->setData(toin); //makes data an actual input
     }
-    else {
-        if (toin < parent->getData()) {
-            if (parent->getLeft() == NULL) {
+    else { //from binary tree
+        if (toin < parent->getData()) { //if the input is less than the data of the parent
+            if (parent->getLeft() == NULL) { //if the left side doesnt exist
                 node* newnode = new node();
                 newnode->setData(toin);
                 newnode->setParent(parent);
                 parent->setLeft(newnode);
-                redo(root, newnode);
+                redo(root, newnode); //ensures that the red black tree doesn't violate the main properties of a red black tree
             }
             else {
-                add(root, parent->getLeft(), toin);
+                add(root, parent->getLeft(), toin); //left side
             }
         }
-        else {
+        else { // right or equal node
             if (parent->getRight() == NULL) {
                 node* newnode = new node();
                 newnode->setData(toin);
@@ -104,16 +134,16 @@ void add(node** root, node* parent, int toin) {
                 redo(root, newnode);
             }
             else {
-                add(root, parent->getRight(), toin);
+                add(root, parent->getRight(), toin); // right side
             }
         }
     }
 }
 
 void leftro(node** root, node* rotateN) {
-    node* y = rotateN->getRight(); 
-    rotateN->setRight(y->getLeft());
-    if (y->getLeft() != NULL) {
+    node* y = rotateN->getRight(); //makes sure that the rotated nodes are left
+    rotateN->setRight(y->getLeft()); // shifts the left to the original on the right
+    if (y->getLeft() != NULL) { //for a new parent
         y->getLeft()->setParent(rotateN);
     }
     y->setParent(rotateN->getParent());
@@ -121,18 +151,20 @@ void leftro(node** root, node* rotateN) {
         (*root) = y; 
     }
     else {
-        if (rotateN == rotateN->getParent()->getLeft()) {
+        if (rotateN == rotateN->getParent()->getLeft()) { //if it was the child of the left parent
             rotateN->getParent()->setLeft(y); 
         }
         else {
             rotateN->getParent()->setRight(y);
         }
     }
-    y->setLeft(rotateN);
-    rotateN->setParent(y);
+    y->setLeft(rotateN); //y left original node
+    rotateN->setParent(y); //original node parent = y
 }
 
 void rightro(node** root, node* rotateN) {
+    //same as left but on the right side
+    //logic is the same but variables are swapped
     node* y = rotateN->getLeft(); 
     rotateN->setLeft(y->getRight());
     if (y->getRight() != NULL) {
@@ -154,46 +186,48 @@ void rightro(node** root, node* rotateN) {
     rotateN->setParent(y);
 }
 
+//https://www.programiz.com/dsa/red-black-tree
+//Used this for the general logic of fixing a red black tree after insertion
 void redo(node** root, node* z) {
-    while (z->getParent() != NULL && z->getParent()->getCol() == 0 && z != (*root)) {
-        if (z->getParent() == z->getParent()->getParent()->getLeft()) {
+    while (z->getParent() != NULL && z->getParent()->getCol() == 0 && z != (*root)) { //while the entry is not the root and the parent is red (terminate at case 2)
+        if (z->getParent() == z->getParent()->getParent()->getLeft()) { //checks to see if the parent is left of the grandparent
             node* y = z->getParent()->getParent()->getRight(); 
-            if (y != NULL && y->getCol() == 0) {
-                z->getParent()->setCol(1); 
-                y->setCol(1); 
-                z->getParent()->getParent()->setCol(0); 
+            if (y != NULL && y->getCol() == 0) { //test case 3
+                z->getParent()->setCol(1); // set parent to black
+                y->setCol(1); //make uncle black
+                z->getParent()->getParent()->setCol(0); //therefore grandparent is red 
                 z = z->getParent()->getParent();
             }
             else {
-                if (z == z->getParent()->getRight()) {
+                if (z == z->getParent()->getRight()) { //case 4
                     z = z->getParent(); 
-                    leftro(root, z); 
+                    leftro(root, z); //rotation
                 }
-                z->getParent()->setCol(1); 
-                z->getParent()->getParent()->setCol(0);
-                rightro(root, z->getParent()->getParent()); 
+                z->getParent()->setCol(1); //case 4
+                z->getParent()->getParent()->setCol(0); //set grandparent to red
+                rightro(root, z->getParent()->getParent()); //rotate
             }
         }
-        else {
+        else { //right of the grandparent
             node* y = z->getParent()->getParent()->getLeft(); 
-            if (y != NULL && y->getCol() == 0) {
-                z->getParent()->setCol(1); 
-                y->setCol(1); 
-                z->getParent()->getParent()->setCol(0);
+            if (y != NULL && y->getCol() == 0) { //case 3
+                z->getParent()->setCol(1); //set parent to black
+                y->setCol(1); //newnode = black
+                z->getParent()->getParent()->setCol(0); //grandparent to red
                 z = z->getParent()->getParent();
             }
             else {
-                if (z == z->getParent()->getLeft()) {
+                if (z == z->getParent()->getLeft()) { //case 4
                     z = z->getParent(); 
                     rightro(root, z); 
                 }
                 z->getParent()->setCol(1); 
-                z->getParent()->getParent()->setCol(0); 
-                leftro(root, z->getParent()->getParent()); 
+                z->getParent()->getParent()->setCol(0); //set grandparent to red
+                leftro(root, z->getParent()->getParent()); // rotate
             }
         }
     }
-    (*root)->setCol(1);
+    (*root)->setCol(1); //root case
 }
 
 node* search(node* check, int inTree) {
@@ -211,4 +245,87 @@ node* search(node* check, int inTree) {
     }
     cout << "The number " << inTree << " does not exist." << endl; //does not exist
     return NULL;
+}
+
+void del(node** root, int del) {
+    node* deleting = search((*root), del); //checks to see what should be deleted
+
+    if (deleting != NULL) { //get the predecessor
+        node* tracker = deleting;
+        if (deleting->getLeft() == NULL || deleting->getRight() == NULL)
+            tracker = deleting;
+        else
+            tracker = pred(deleting);
+
+        if (tracker != deleting)
+            deleting->setData(tracker->getData());
+
+        node* trackchild = tracker->getLeft() != NULL ? tracker->getLeft() : tracker->getRight(); //checks to see if the real child is taken
+
+        //for the sentinel (starts as black)
+        //https://www.cs.dartmouth.edu/~thc/cs10/lectures/0519/0519.html#:~:text=A%20red%2Dblack%20tree%20is,the%20sentinel%20is%20always%20black.
+        if (trackchild == NULL) { 
+            trackchild = new node();
+            trackchild->setCol(1);
+        }
+
+        trackchild->setParent(tracker->getParent()); //updates the parent
+
+        if (tracker->getParent() == NULL)
+            (*root) = trackchild; //makes the child the root
+        else if (tracker == tracker->getParent()->getLeft())
+            tracker->getParent()->setLeft(trackchild); //left child becomes the tracker for child
+        else
+            tracker->getParent()->setRight(trackchild);
+
+        if (tracker->getCol() == 1) { // checks if tracker is black
+            if (trackchild->getCol() == 1) // checks if child is vlack
+                delcase1(root, trackchild); //case 1
+            else
+                trackchild->setCol(1); //update to black
+        }
+
+        if (trackchild->getIsDel() && trackchild != (*root)) { //if the child is a sentinal
+            if (trackchild == tracker->getParent()->getLeft()) //this updates the parent's children
+                trackchild->getParent()->setLeft(NULL);
+            else
+                trackchild->getParent()->setRight(NULL);
+            trackchild->setParent(NULL);
+            delete trackchild;
+        }
+
+        delete tracker;
+    }
+}
+
+node* fSib(node* checking) {
+    node* sibling; // sibling of the checking node
+    //checks the left first, and if the parent is left, then the sibling is right.
+    //Else, sibling is the parent left
+    sibling = (checking->getParent()->getLeft() == checking) ? checking->getParent()->getRight() : checking->getParent()->getLeft();
+    return sibling;
+}
+
+//Deletion cases RBT: https://medium.com/analytics-vidhya/deletion-in-red-black-rb-tree-92301e1474ea
+
+void delcase1(node** root, node* checking) {
+    if (checking->getParent() != NULL) {//checks to see if there is a root
+        delcase2(root, checking); //next case
+    }
+}
+
+void delcase2(node** root, node* checking) { //checks to see if the sibling is red
+    node* sibling = fSib(checking);
+
+    if (sibling->getCol() == 0) { //red = 0
+        checking->getParent()->setCol(0);// therefore parent is red
+        sibling->setCol(1); //make sibling black
+        if (checking == checking->getParent()->getLeft()) {
+            leftro(root, checking->getParent());
+        }
+        else {
+            rightro(root, checking->getParent());
+        }
+    }
+    delcase3(root, checking); //next test case
 }
