@@ -2,8 +2,9 @@
 #define guard
 class node {
 public:
-	node();
+	node(); 
 	~node();
+	//prototypes
 	void setLeft(node*);
 	void setRight(node*);
 	void setParent(node*);
@@ -24,7 +25,7 @@ private:
 	node* parent;
 	int data;
 	bool color;
-	bool isDel;
+	bool isDel; //for when the tree is empty
 };
 
 #endif

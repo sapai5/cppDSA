@@ -4,8 +4,9 @@ node::node() { //constructor
 	left = NULL;
 	right = NULL;
 	parent = NULL;
-	color = 0;
+	color = 0; //red = 0, black = 1
 	data = 0;
+	isDel = true; //this is for when the tree is empty
 }
 
 node :: ~node() {//destructor
@@ -13,11 +14,11 @@ node :: ~node() {//destructor
 	right = NULL;
 }
 
-void node::setLeft(node* newLeft) {
+void node::setLeft(node* newLeft) { //initilaize left
 	left = newLeft;
 }
 
-void node::setRight(node* newRight) {
+void node::setRight(node* newRight) { //initilaize right
 	right = newRight;
 }
 
@@ -53,11 +54,11 @@ bool node::getCol() {
 	return color;
 }
 
-void node::setIsDel(bool newDel) {
+void node::setIsDel(bool newDel) { //updates del
 	isDel = newDel;
 }
 
-bool node::getIsDel() {
+bool node::getIsDel() { //returns del
 	return isDel;
 }
 

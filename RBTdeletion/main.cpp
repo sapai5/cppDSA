@@ -306,6 +306,14 @@ node* fSib(node* checking) {
     return sibling;
 }
 
+node* pred(node* high) {
+    while (high->getRight() != NULL) { //checks the right side
+        high = high->getRight();
+    }
+    return high;
+}
+
+
 //Deletion cases RBT: https://medium.com/analytics-vidhya/deletion-in-red-black-rb-tree-92301e1474ea
 
 void delcase1(node** root, node* checking) {
@@ -329,3 +337,81 @@ void delcase2(node** root, node* checking) { //checks to see if the sibling is r
     }
     delcase3(root, checking); //next test case
 }
+
+void delcase3(node** root, node* checking) { //if parent, sibling, and child of sibling = black
+    node* sibling = fSib(checking);
+    node* parent = checking->getParent();
+
+    if (parent->getCol() && sibling->getCol() &&
+        (!sibling->getLeft() || sibling->getLeft()->getCol()) &&
+        (!sibling->getRight() || sibling->getRight()->getCol())) { //checks for the comment above
+
+        sibling->setCol(0); //make sibling red
+        delcase1(root, parent);
+    }
+    else {
+        delcase4(root, checking); //next case
+    }
+}
+
+void delcase4(node** root, node* checking) { //sibling + children = black; parent = red
+    node* sibling = fSib(checking);
+    node* parent = checking->getParent();
+
+    if (!parent->getCol() && sibling->getCol()) {
+        if ((!sibling->getLeft() || sibling->getLeft()->getCol()) &&
+            (!sibling->getRight() || sibling->getRight()->getCol())) { //checks for the comment above
+            sibling->setCol(0);
+            parent->setCol(1);
+        }
+        else {
+            delcase5(root, checking);
+        }
+    }
+    else {
+        delcase5(root, checking);
+    }
+}
+
+void delcase5(node** root, node* checking) { 
+    node* sibling = fSib(checking);
+
+    if (sibling->getCol()) {
+        node* parent = checking->getParent();
+        if (checking == parent->getLeft() && //left of the parent and the right sibling is black
+            (!sibling->getRight() || sibling->getRight()->getCol())) {
+            sibling->setCol(0); //make sibling red
+            if (sibling->getLeft())
+                sibling->getLeft()->setCol(1);
+            rightro(root, sibling);
+        }
+        else if (checking == parent->getRight() &&
+            (!sibling->getLeft() || sibling->getLeft()->getCol())) {
+            sibling->setCol(0);
+            if (sibling->getRight())
+                sibling->getRight()->setCol(1); //make red because of cases 2,3 and 4
+            leftro(root, sibling);
+        }
+    }
+    delcase6(root, checking);
+}
+
+void delcase6(node** root, node* checking) { //checks to see if sibling is black, and one child is red
+    node* sibling = fSib(checking);
+    node* parent = checking->getParent();
+
+    sibling->setCol(parent->getCol());
+    parent->setCol(1); //make parent black
+
+    if (checking == parent->getLeft()) {
+        if (sibling->getRight())
+            sibling->getRight()->setCol(1); //right sibling is black
+        leftro(root, parent);
+    }
+    else {
+        if (sibling->getLeft())
+            sibling->getLeft()->setCol(1); //left sibling is black
+        rightro(root, parent);
+    }
+}
+
